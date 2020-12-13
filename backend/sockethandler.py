@@ -14,6 +14,7 @@ def connect(sid, environ):
 @sio.event
 def disconnect(sid):
     print('Disconnected: ', sid)
+    organizer.disconnect(sid)
 
 @sio.event
 def username(sid, uname):

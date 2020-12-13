@@ -49,6 +49,21 @@ class Organizer:
             self.map[sid] = roomid
         else:
             assert False
+    
+    def disconnect(self, sid):
+        try:
+            roomid = self.map[sid]
+            # Delete empty rooms
+            if len(self.getUsersByRoomId(roomid)) == 1:
+                for idx, room in enumerate(self.rooms):
+                    if room.id == roomid:
+                        del self.rooms[idx]
+                        print("Deleted empty room: "+str(roomid))
+                        break
+
+            del self.map[sid]
+        except:
+            print("WARNING: Failed to remove sid {} from backend. Were they ever connected?".format(sid))
 
     # TODO, either cache these, or make it a binary search
     def getUserById(self, uid: str):
