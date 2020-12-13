@@ -15,7 +15,7 @@ async def room(request: web.Request):
     roomid = request.match_info.get('roomid', "Anonymous")
     room = organizer.getRoomById(roomid)
     if not room:
-        return web.HTTPNotFound()
+        return web.HTTPFound(location="/?err=roomnotfound")
     with open('../frontend/room.html') as f:
         return web.Response(text=f.read(), content_type='text/html')
 

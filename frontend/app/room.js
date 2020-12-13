@@ -16,6 +16,10 @@ class ChatMessage {
       this.from = sid;
       this.content = message;
     }
+
+    fromSelf() {
+        return this.from == socket.id
+    }
   }
 
 

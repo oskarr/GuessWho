@@ -54,6 +54,7 @@ class Organizer:
         try:
             roomid = self.map[sid]
             # Delete empty rooms
+            # TODO make this a delay, so that reloading won't delete the room.
             if len(self.getUsersByRoomId(roomid)) == 1:
                 for idx, room in enumerate(self.rooms):
                     if room.id == roomid:

@@ -13,43 +13,86 @@
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.min.js"
         integrity="sha512-Jq1JnVXlkYQOYQpz31qIV/0l67d97J9I6sbILtfiSYX00Isr2zK7XDRmHW8d2iBTwNZfL7sHkHGT0EzLs90jdw=="
         crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js" integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js"
+        integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A=="
+        crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 
     <script defer src="app/room.js"></script>
 
     <style>
-    html, body, .h100 {height: 100%;}
-    body {background-color: cornflowerblue}
+        html,
+        body,
+        .h100 {
+            height: 100%;
+        }
+
+        body {
+            background-color: cornflowerblue
+        }
+
+        .other-message,
+        .own-message {
+            max-width: 100%;
+            overflow-wrap: break-word;
+            /*width: max-content;*/
+        }
+
+        .own-message {
+            float: right;
+            margin-left: 100%;
+        }
+
+        .other-message {
+            float: left;
+            margin-right: 100%;
+        }
     </style>
 </head>
 
 <body>
-    <section class="section h100" id = "app">
+    <section class="section h100" id="app">
         <div class="container is-fluid h100">
             <div class="columns h100">
                 <div class="column is-one-fifth h100">
                     <div class="rows h100">
-                        <div class = "box row" style="height:20%">
+                        <div class="box row" style="height:20%">
                             <a class="button has-background-danger-dark has-text-white" href=".">Lämna rum</a>
                         </div>
-                        <div class = "box row" style="height:80%">
+                        <div class="box row" style="height:80%">
                         </div>
                     </div>
                 </div>
+
+
                 <div class="column" id="app">
+                    <div class="rows h100">
+                        <div class="row box h100">
 
-                </div>
-                <div class="column box is-one-quarter h100" style="display: flex;flex-direction: column;">
-                    <h3 class="title">Chatt</h3>
-                    <div style="overflow-y: auto;">
-                        <div v-for="message in chat" class="box has-background-grey-lighter mb-2">
-                            {{ message.content }}
                         </div>
                     </div>
-                    <input type="text" v-model="draftmessage" v-on:keydown="chatkeydown" placeholder="Skriv något" style="margin-top: auto;"/>
                 </div>
 
+
+                <div class="column is-one-quarter h100">
+                    <div class="rows h100">
+                        <div class="row box h100" style="display: flex;flex-direction: column;">
+                            <h3 class="title">Chatt</h3>
+                            <div style="overflow-y: auto;" class="rows">
+                                <div v-for="message in chat" class = "row">
+                                    <div v-if="!message.fromSelf()" class="box has-background-grey-lighter mb-2 other-message">
+                                        {{ message.content }}
+                                    </div>
+                                    <div v-if="message.fromSelf()" class="box has-background-link has-text-white has-text-right mb-2 own-message">
+                                        {{ message.content }}
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="text" v-model="draftmessage" v-on:keydown="chatkeydown"
+                                placeholder="Skriv något" style="margin-top: auto;" />
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
