@@ -9,40 +9,63 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.1/css/bulma.min.css"
         integrity="sha512-ZRv40llEogRmoWgZwnsqke3HNzJ0kiI0+pcMgiz2bxO6Ew1DVBtWjVn0qjrXdT3+u+pSN36gLgmJiiQ3cQtyzA=="
         crossorigin="anonymous" />
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.min.js"
-        integrity="sha512-Jq1JnVXlkYQOYQpz31qIV/0l67d97J9I6sbILtfiSYX00Isr2zK7XDRmHW8d2iBTwNZfL7sHkHGT0EzLs90jdw=="
-        crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js" integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 
-    <script defer src="static/app.js"></script>
+    <style>
+        html,
+        body {
+            height: 100%;
+            background-color: cornflowerblue;
+            overflow-y: auto;
+        }
 
-    <style>html, body, .h100 {height: 100%;}</style>
+        #center {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .wide {
+            width: 100%
+        }
+    </style>
 </head>
 
 <body>
-    <section class="section h100">
-        <div class="container is-fluid h100">
-            <div class="columns h100">
-                <div class="column is-one-quarter">Sidebar</div>
-                <div class="column is-half" id="app">
-
-                </div>
-                <div class="column box is-one-quarter h100" id="chat" style="display: flex;flex-direction: column;">
-                    <h3 class="title">Chatt</h3>
-                    <div style="overflow-y: auto;">
-                        <div v-for="message in messages" class="box has-background-grey-lighter mb-2">
-                            {{ message }}
-                        </div>
-                    </div>
-                    <fieldset style="margin-top: auto;">
-                        <input type="text" v-model="draftmessage" placeholder="Skriv något" />
-                        <button class="button" v-on:click="sendmessage">➡</button>
-                    </fieldset>
-                </div>
-
-            </div>
-        </div>
-    </section>
+    <div class="box" id="center">
+        <h3 class="title">Gissa vem!</h3>
+        <table class="table">
+            <tr>
+                <td><input type="text" placeholder="Spelarnamn" v-model="uname" /></td>
+                <td><input type="text" placeholder="Rum-id" v-model="roomid" /></td>
+            </tr>
+            <tr>
+                <td><button class="button wide" v-on:click="newroom">Nytt rum</button></td>
+                <td><button class="button wide" v-on:click="joinroom">Gå med i rum</button></td>
+            </tr>
+        </table>
+    </div>
 </body>
+<script>
+    app = new Vue({
+        el: '#center',
+        data: {
+            uname: Cookies.get("username"),
+            roomid: "",
+        },
+        methods: {// TODO add validation
+            newroom: function () {
+                Cookies.set("username", this.uname, {path: ""})
+                window.location.href = "/newroom"
+            },
+            joinroom: function () {
+                Cookies.set("username", this.uname, {path: ""})
+                window.location.href = "/room/" + this.roomid
+            }
+        }
+    })
+</script>
 
 </html>

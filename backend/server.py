@@ -1,35 +1,35 @@
 #! /usr/bin/env python3
-
 from aiohttp import web
-import socketio
+import sockethandler
+from sockethandler import organizer
 
-## Init
-sio = socketio.AsyncServer()
 app = web.Application()
-sio.attach(app)
-
-@sio.event
-def connect(sid, environ):
-    print("connect ", sid)
-
-@sio.event
-async def chat_message(sid, data):
-    print("message ", data)
-    await sio.emit('reply', "test", room=sid)
-
-@sio.event
-def disconnect(sid):
-    print('disconnect ', sid)
-    
-
+sockethandler.attach(app)
 
 async def index(request):
     """Serve the client-side application."""
     with open('../frontend/index.html') as f:
         return web.Response(text=f.read(), content_type='text/html')
 
+async def room(request):
+    roomid = request.match_info.get('roomid', "Anonymous")
+    room = organizer.getRoomById(roomid)
+    if not room:
+        return web.HTTPNotFound()
+    with open('../frontend/room.html') as f:
+        return web.Response(text=f.read(), content_type='text/html')
+
+async def newroom(request: web.Request):
+    room = organizer.newRoom()
+    print("Room created: " + room.id)
+    raise web.HTTPFound(location="/room/"+str(room.id))
+
+
 app.router.add_static('/static', '../frontend/static')
+app.router.add_static('/app', '../frontend/app')
 app.router.add_get('/', index)
+app.router.add_get('/room/{roomid}', room)
+app.router.add_get('/newroom', newroom)
 
 if __name__ == '__main__':
     web.run_app(app)
