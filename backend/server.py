@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 from aiohttp import web
-import sockethandler
+import sockethandler, os
 from sockethandler import organizer
 
 async def index(request: web.Request):
@@ -25,8 +25,17 @@ async def newroom(request: web.Request):
 def main(host, port):
     app = web.Application()
     sockethandler.attach(app)
-    app.router.add_static('/static', '../frontend/static')
-    app.router.add_static('/app', '../frontend/app')
+
+    if os.path.isdir('frontend'):
+        app.router.add_static('/static', 'frontend/static')
+        app.router.add_static('/app', 'frontend/app')
+    elif os.path.isdir('../frontend'):
+        app.router.add_static('/static', '../frontend/static')
+        app.router.add_static('/app', '../frontend/app')
+    else:
+        print("/frontend not found. Current directory contents: ", os.listdir())
+        raise FileNotFoundError
+
     app.router.add_get('/', index)
     app.router.add_get('/room/{roomid}', room)
     app.router.add_get('/newroom', newroom)
@@ -34,5 +43,5 @@ def main(host, port):
     
 
 if __name__ == '__main__':
-    main(host = "*", port = 80)
+    main(host = "localhost", port = os.getenv('PORT'))
     #main(host = "localhost", port = 8080)
