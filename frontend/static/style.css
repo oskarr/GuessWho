@@ -40,6 +40,7 @@ table.borderless tr td, tr.borderless td, td.borderless {
 .other-message {
     float: left;
     margin-right: 100%;
+    width: max-content;
 }
 
 .box.card {

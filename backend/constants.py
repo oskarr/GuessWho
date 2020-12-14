@@ -2,7 +2,7 @@ import gzip, os, pathlib, sys
 
 BASE_PATH = str(pathlib.Path(sys.argv[0]).resolve().parent.parent)
 
-FACES = ["static/NVSG/"+str(i)+".jpg" for i in range(74074001, 74075000, 2)]
+FACES = ["static/NVSG/0"+str(i)+".jpg" for i in range(74001, 75000, 2)]
 
 
 with gzip.open(BASE_PATH + "/backend/names.gz", "r") as f:
