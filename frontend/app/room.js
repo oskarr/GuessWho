@@ -1,14 +1,20 @@
+
+
+ROOM_ID = window.location.href.split("/")
+ROOM_ID = ROOM_ID[ROOM_ID.length-1]
+ROOM_ID = ROOM_ID.split("?")[0].split("#")[0]
+
+if(Cookies.get("username") == "undefined" || Cookies.get("team") == "undefined") {
+    window.location.href = "../?room="+ROOM_ID+"&err=newuser"
+}
+
 const socket = io('');
 (function(){
     socket.on('reply', (data) => {app.chat.push(new ChatMessage(data.from, data.message))})
     socket.on('characters', (data) => {app.characters = data.all; app.self = data.self;})
 
-    roomid = window.location.href.split("/")
-    roomid = roomid[roomid.length-1]
-    roomid = roomid.split("?")[0].split("#")[0]
-
     socket.emit('update_user', Cookies.get("username"), Cookies.get("team"))
-    socket.emit('joinroom', roomid)
+    socket.emit('joinroom', ROOM_ID)
     socket.emit('get_characters')
 })()
 

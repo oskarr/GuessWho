@@ -17,8 +17,10 @@
 </head>
 
 <body>
-    <div class="box" id="center">
+    <div class="box" id="center" style="width:min-content">
         <h3 class="title">Gissa vem!</h3>
+        <div class="notification is-primary" v-bind:hidden="GET('err')!='newuser'">👋 Hej! Innan du kan gå med i rummet måste du välja ett lag och ett användarnamn.</div>
+        <div class="notification is-warning" v-bind:hidden="GET('err')!='roomnotfound'">&#8477;<sup>&#119899;</sup> Rummet hittades inte.</div>
         <table class="table borderless">
             <tr>
                 <td><input type="text" placeholder="Spelarnamn" v-model="uname" /></td>
@@ -39,27 +41,5 @@
         <p class="is-size-7 has-text-centered">Denna sida använder cookies för att lagra ditt användarnamn och lag.<br>Cookien raderas när du stänger din webbläsare.</p>
     </div>
 </body>
-<script>
-    app = new Vue({
-        el: '#center',
-        data: {
-            uname: Cookies.get("username"),
-            roomid: "",
-            team: Cookies.get("team"),
-        },
-        methods: {// TODO add validation
-            newroom: function () {
-                Cookies.set("username", this.uname, {path: ""})
-                Cookies.set("team", this.team, {path: ""})
-                window.location.href = "/newroom"
-            },
-            joinroom: function () {
-                Cookies.set("username", this.uname, {path: ""})
-                Cookies.set("team", this.team, {path: ""})
-                window.location.href = "/room/" + this.roomid
-            }
-        }
-    })
-</script>
-
+<script src="app/index.js"></script>
 </html>
