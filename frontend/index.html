@@ -9,18 +9,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.1/css/bulma.min.css"
         integrity="sha512-ZRv40llEogRmoWgZwnsqke3HNzJ0kiI0+pcMgiz2bxO6Ew1DVBtWjVn0qjrXdT3+u+pSN36gLgmJiiQ3cQtyzA=="
         crossorigin="anonymous" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js" integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js"
+        integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A=="
+        crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 
-    
+
     <link rel="stylesheet" href="static/style.css" />
 </head>
 
 <body>
     <div class="box" id="center" style="width:min-content">
         <h3 class="title">Gissa vem!</h3>
-        <div class="notification is-primary" v-bind:hidden="GET('err')!='newuser'">👋 Hej! Innan du kan gå med i rummet måste du välja ett lag och ett användarnamn.</div>
-        <div class="notification is-warning" v-bind:hidden="GET('err')!='roomnotfound'">&#8477;<sup>&#119899;</sup> Rummet hittades inte.</div>
+        <div class="notification is-primary" v-bind:hidden="GET('err')!='newuser'">👋 Hej! Innan du kan gå med i rummet
+            måste du välja ett lag och ett användarnamn.</div>
+        <div class="notification is-warning" v-bind:hidden="GET('err')!='roomnotfound'">&#8477;<sup>&#119899;</sup>
+            Rummet hittades inte.</div>
+
         <table class="table borderless">
             <tr>
                 <td><input type="text" placeholder="Spelarnamn" v-model="uname" /></td>
@@ -30,16 +35,31 @@
                 <td colspan="2">Lag:</td>
             </tr>
             <tr>
-                <td><label class="radio"><input type="radio" v-model="team" value = "A"> Kanel</label></td>
-                <td><label class="radio"><input type="radio" v-model="team" value = "B"> Kardemumma</label></td>
+                <td><label class="radio"><input type="radio" v-model="team" value="A"> Kanel</label></td>
+                <td><label class="radio"><input type="radio" v-model="team" value="B"> Kardemumma</label>
+                </td>
             </tr>
             <tr>
                 <td><button class="button wide" v-on:click="newroom">Nytt rum</button></td>
                 <td><button class="button wide" v-on:click="joinroom">Gå med i rum</button></td>
             </tr>
+
         </table>
-        <p class="is-size-7 has-text-centered">Denna sida använder cookies för att lagra ditt användarnamn och lag.<br>Cookien raderas när du stänger din webbläsare.</p>
+        <form method="POST" action="newcustomroom" enctype="multipart/form-data">
+            <hr>
+            <fieldset style="text-align: center;"><input type="file" name="file" id = "file"/></fieldset>
+            <br>
+            <input type="submit" class="button wide" name="sender" value="Nytt rum med egna filer" v-on:mousedown="setcookies">
+            <hr>
+        </form>
+        <p class="is-size-7 has-text-centered">Denna sida använder cookies för att lagra ditt användarnamn och lag.
+            <br>
+            Cookien raderas när du stänger din webbläsare.
+            <br>
+            Uppladdade filer måste vara en zip-fil med bilder. Bildernas namn används i spelet. Bilderna raderas automatiskt när alla har lämnat rummet.
+        </p>
     </div>
 </body>
 <script src="app/index.js"></script>
+
 </html>

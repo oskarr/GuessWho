@@ -7,24 +7,31 @@ function GET(param) {
     
 }
 
+
 app = new Vue({
     el: '#center',
     data: {
         uname: Cookies.get("username"),
         roomid: GET("room"),
         team: Cookies.get("team"),
+        files: undefined,
     },
     methods: {// TODO add validation
-        newroom: function () {
+        setcookies: function() {
             Cookies.set("username", this.uname, {path: ""})
             Cookies.set("team", this.team, {path: ""})
+        },
+        newroom: function () {
+            this.setcookies()
             window.location.href = "/newroom"
         },
         joinroom: function () {
-            Cookies.set("username", this.uname, {path: ""})
-            Cookies.set("team", this.team, {path: ""})
+            this.setcookies()
             window.location.href = "/room/" + this.roomid
         },
         GET: GET,
+        handleFiles: function(e) {
+            console.log(e.target.files)
+        }
     }
 })

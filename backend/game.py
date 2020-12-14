@@ -1,4 +1,5 @@
-import random, constants
+import random, constants, os
+from constants import BASE_PATH
 
 class Character:
     def __init__(self, name, image):
@@ -33,6 +34,27 @@ class Game:
                 "self": random.choice(characters[:20]),
             }
         }
+    
+    def initFromUserUpload(self, roomid):
+        localpath = "static/user/"+roomid+"/"
+        path = BASE_PATH + "/frontend/"+ localpath
+        if os.path.isdir(path):
+            files = os.listdir(path)
+            characters = [Character(f.split(".")[0], localpath+f) for f in files]
+            random.shuffle(characters)
+            split = min(len(characters)//2, 20)
+            self.teams = {
+                "A": {
+                    "characters": characters[:split],
+                    "self": random.choice(characters[split:]),
+                },
+                "B": {
+                    "characters": characters[split:],
+                    "self": random.choice(characters[:split]),
+                }
+            }
+        else:
+            pass
 
     def getCharactersForTeam(self, team) -> dict:
         return self.teams[team]["characters"]

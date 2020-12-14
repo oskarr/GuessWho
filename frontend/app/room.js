@@ -18,7 +18,12 @@ const socket = io('');
     socket.emit('get_characters')
 })()
 
-
+function copyLink() {
+    var copyText = document.getElementById('linkbox');
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    document.execCommand('copy');
+}
 
 class ChatMessage {
     constructor(sid, message) {
@@ -41,6 +46,7 @@ app = new Vue({
         characters: {},
         self: {},
         draftmessage: "",
+        url: window.location.href,
     },
     methods: {
         chatkeydown: function(event) {

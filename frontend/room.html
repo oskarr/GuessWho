@@ -29,12 +29,14 @@
             <div class="columns h100">
                 <div class="column is-one-fifth h100">
                     <div class="rows h100">
-                        <div class="box row" style="height:20%">
-                            <a class="button has-background-danger-dark has-text-white" href=".">Lämna rum</a>
+                        <div class="box row" style="height:30%">
+                            <input type="text" id = "linkbox" v-model="url" style="width:100%;"/>
+                            <a class="button has-background-primary has-text-white" onclick="copyLink()" style="width:100%;">Kopiera länk</a>
+                            <a class="button has-background-danger has-text-white" href="." style="width:100%;">Lämna rum</a>
                         </div>
-                        <div class="box row" style="height:80%">
+                        <div class="box row" style="height:70%">
                             <div>
-                                <h4 class="title is-size-4">Din karaktär</h4>
+                                <h4 class="title is-size-4">Din person</h4>
                             <div class="box">
                                 <img v-bind:src="self.image" /><br>
                                 <span class="has-text-centered wide">{{ self.name }}</span>

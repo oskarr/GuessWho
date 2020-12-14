@@ -63,3 +63,7 @@ table.borderless tr td, tr.borderless td, td.borderless {
     filter: grayscale(1);
     font-style: italic;
 }
+
+.filedrop {
+    text-align: center;
+}

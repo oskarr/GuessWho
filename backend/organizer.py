@@ -1,6 +1,7 @@
 """Contains code for organizing users into rooms."""
 
-import string, time, random, asyncio, game
+import string, time, random, asyncio, game, shutil
+from constants import BASE_PATH
 
 class Message:
     def __init__(self, sid, message):
@@ -75,6 +76,7 @@ class Organizer:
                 if room.id == roomid:
                     if len(self.getUsersByRoomId(roomid))==0:
                         del self.rooms[idx]
+                        shutil.rmtree(BASE_PATH + "/frontend/static/user/"+roomid)
                         print("Deleted empty room: "+str(roomid))
                     else:
                         print("Didn't delete room: "+str(roomid)+" room is not empty.")
