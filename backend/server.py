@@ -1,12 +1,11 @@
 #! /usr/bin/env python3
 from aiohttp import web
-import sockethandler, os, sys, pathlib, zipfile
+import sockethandler, os, sys, pathlib, zipfile, shutil
 from sockethandler import organizer
 from constants import BASE_PATH
 
 async def index(request: web.Request):
     """Serve the client-side application."""
-    print("[INFO] Serving index.html")
     with open(BASE_PATH + '/frontend/index.html') as f:
         return web.Response(text=f.read(), content_type='text/html')
 
@@ -59,6 +58,7 @@ def main():
     app.router.add_post('/newcustomroom', newcustomroom)
 
     print("[INFO] Attempting to assign server to port ", os.getenv('PORT'))
+    print("[INFO] Don't forget to manually clean /static/user/ if shutting down manually.")
     web.run_app(app, port = os.getenv('PORT'))
     
 

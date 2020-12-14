@@ -55,6 +55,9 @@ app = new Vue({
                 socket.emit("chat_message", this.draftmessage)
                 this.draftmessage = ""
             }
+        },
+        updateCharacters: function() {
+            socket.emit('update_characters', this.characters)
         }
     }
 })

@@ -55,6 +55,30 @@ async def get_characters(sid):
         faces = list(map(dict, room.game.getCharactersForTeam(user.team)))
         own = dict(room.game.getTeamSelf(user.team))
         await sio.emit('characters', {"all": faces, "self": own}, room=sid)
+
+@sio.event
+async def update_characters(sid, data):
+    room = organizer.getRoomByUserId(sid)
+    user = organizer.getUserById(sid)
+    print("update_characters from: ",sid)
+    if user.team is not None:
+        team = room.game.teams[user.team]
+        # TODO Crazy inefficient.
+        # TODO move to the Game class.
+        for newchar in data:
+            for char in team["characters"]:
+                if newchar["name"] == char.name:
+                    char.active = newchar["active"]
+            
+        # = data
+        faces = list(map(dict, room.game.getCharactersForTeam(user.team)))
+        own = dict(room.game.getTeamSelf(user.team))
+        users = organizer.getUsersByRoomId(room.id)
+        for u in users:
+            if u.id != sid and u.team == user.team:
+                print("characters emission to",u.id)
+                await sio.emit('characters', {"all": faces, "self": own}, room=u.id)
+
         
 
 def attach(app):

@@ -1,6 +1,6 @@
 """Contains code for organizing users into rooms."""
 
-import string, time, random, asyncio, game, shutil
+import string, time, random, asyncio, game, shutil, os
 from constants import BASE_PATH
 
 class Message:
@@ -67,16 +67,19 @@ class Organizer:
         else:
             assert False
     
-    def deleteRoom(self, roomid, delay = 3):
+    def deleteRoom(self, roomid, delay = 3, force = False):
         # TODO make delay work
         #print("Pending deletion of: ", roomid, " in ", delay, "s")
         #await asyncio.sleep(delay)
         #print("Started deletion of: ", roomid)
         for idx, room in enumerate(self.rooms):
                 if room.id == roomid:
-                    if len(self.getUsersByRoomId(roomid))==0:
+                    if len(self.getUsersByRoomId(roomid))==0 or force:
                         del self.rooms[idx]
-                        shutil.rmtree(BASE_PATH + "/frontend/static/user/"+roomid)
+
+                        roompath = BASE_PATH + "/frontend/static/user/"+roomid
+                        if os.path.isdir(roompath):
+                            shutil.rmtree(roompath)
                         print("Deleted empty room: "+str(roomid))
                     else:
                         print("Didn't delete room: "+str(roomid)+" room is not empty.")

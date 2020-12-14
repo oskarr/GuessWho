@@ -50,7 +50,7 @@
                 <div class="column" id="app">
                     <div class="rows h100">
                         <div class="row box h100" style="overflow-y: auto;background-color: lightsalmon;">
-                            <div v-for="character in characters" class="box card character" v-bind:class="{active: character.active}" v-on:click="character.active = !character.active">
+                            <div v-for="character in characters" class="box card character" v-bind:class="{active: character.active}" v-on:click="character.active = !character.active;updateCharacters()">
                                 <img v-bind:src="character.image"/><br>
                                 <span class="has-text-centered wide">{{ character.name }}</span>
                             </div>
