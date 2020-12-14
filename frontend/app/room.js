@@ -46,7 +46,7 @@ app = new Vue({
         characters: {},
         self: {},
         draftmessage: "",
-        url: window.location.href,
+        url: window.location.href
     },
     methods: {
         chatkeydown: function(event) {

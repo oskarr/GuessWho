@@ -36,8 +36,9 @@ async def newcustomroom(request: web.Request):
             os.mkdir(os.path.join(BASE_PATH+"/frontend/static/user/", room.id))
             for f in z.filelist:
                 fn = f.filename
-                with open(BASE_PATH+"/frontend/static/user/"+room.id+"/"+fn, "wb") as xf:
-                    xf.write(z.read(fn))
+                if fn[-4:].lower() in [".png",".jpg",".gif"] or fn[-5:].lower() in [".jpeg",".jfif"]:
+                    with open(BASE_PATH+"/frontend/static/user/"+room.id+"/"+fn, "wb") as xf:
+                        xf.write(z.read(fn))
 
     room.game.initFromUserUpload(room.id)
 

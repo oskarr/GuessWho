@@ -55,7 +55,7 @@
                                 <span class="has-text-centered wide">{{ character.name }}</span>
                             </div>
 
-                            <p class="is-size-7 has-text-centered">
+                            <p class="is-size-7 has-text-centered" v-if="characters[0].image.substr(0,12)=='static/NVSG/'">
                                 Tack till <a href="https://github.com/NVlabs/stylegan2">Nvidia</a> för GDPR-vänliga bilder av icke-existerade personer, samt till
                                 <a
                                     href="https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__BE__BE0001__BE0001D/BE0001Nyfodda/">SCB</a> för alla fantastiska namn!
