@@ -18,6 +18,7 @@ async def disconnect(sid):
 @sio.event
 def update_user(sid, uname, team):
     # TODO disallow updating of team
+    print('Update user: ', sid)
     organizer.updateUser(sid, uname, team)
 
 @sio.event
