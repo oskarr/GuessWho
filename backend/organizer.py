@@ -1,6 +1,20 @@
 """Contains code for organizing users into rooms."""
 
-import string, random
+import string, time, random
+
+class Message:
+    def __init__(self, sid, message):
+        self.sender = sid
+        self.message = message
+        self.time = time.time()
+
+
+class User:
+    """Contains a user and its id."""
+    def __init__(self, sid, name):
+        self.id = sid
+        self.name = name
+
 
 class Room:
     """Contains the info for a room."""
@@ -8,13 +22,9 @@ class Room:
         self.id = rid
         self.participants = []
         self.chat = []
-
-
-class User:
-    """Contains a user and its id."""
-    def __init__(self, uid, name):
-        self.id = uid
-        self.name = name
+    
+    def addMessage(self, sid, message):
+        self.chat.append(Message(sid, message))
 
 
 class Organizer:
