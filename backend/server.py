@@ -3,9 +3,6 @@ from aiohttp import web
 import sockethandler
 from sockethandler import organizer
 
-app = web.Application()
-sockethandler.attach(app)
-
 async def index(request: web.Request):
     """Serve the client-side application."""
     with open('../frontend/index.html') as f:
@@ -25,12 +22,17 @@ async def newroom(request: web.Request):
     raise web.HTTPFound(location="/room/"+str(room.id))
 
 
-
-app.router.add_static('/static', '../frontend/static')
-app.router.add_static('/app', '../frontend/app')
-app.router.add_get('/', index)
-app.router.add_get('/room/{roomid}', room)
-app.router.add_get('/newroom', newroom)
+def main(host, port):
+    app = web.Application()
+    sockethandler.attach(app)
+    app.router.add_static('/static', '../frontend/static')
+    app.router.add_static('/app', '../frontend/app')
+    app.router.add_get('/', index)
+    app.router.add_get('/room/{roomid}', room)
+    app.router.add_get('/newroom', newroom)
+    web.run_app(app, host=host, port=port)
+    
 
 if __name__ == '__main__':
-    web.run_app(app)
+    main(host = "*", port = 80)
+    #main(host = "localhost", port = 8080)
