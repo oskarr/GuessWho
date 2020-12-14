@@ -4,7 +4,7 @@ ROOM_ID = window.location.href.split("/")
 ROOM_ID = ROOM_ID[ROOM_ID.length-1]
 ROOM_ID = ROOM_ID.split("?")[0].split("#")[0]
 
-if(Cookies.get("username") == "undefined" || Cookies.get("team") == "undefined") {
+if([undefined, "undefined"].indexOf(Cookies.get("username")) != -1 || [undefined, "undefined"].indexOf(Cookies.get("team")) != -1) {
     window.location.href = "../?room="+ROOM_ID+"&err=newuser"
 }
 
