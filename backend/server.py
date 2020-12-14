@@ -7,7 +7,7 @@ from constants import BASE_PATH
 async def index(request: web.Request):
     """Serve the client-side application."""
     print("[INFO] Serving index.html")
-    with open(sys.argv[0] + '/../frontend/index.html') as f:
+    with open(BASE_PATH + '/frontend/index.html') as f:
         return web.Response(text=f.read(), content_type='text/html')
 
 async def room(request: web.Request):
@@ -16,7 +16,7 @@ async def room(request: web.Request):
     print("[INFO] Serving room ", roomid)
     if not room:
         return web.HTTPFound(location="/?err=roomnotfound")
-    with open(sys.argv[0] + '/../frontend/room.html') as f:
+    with open(BASE_PATH + '/frontend/room.html') as f:
         return web.Response(text=f.read(), content_type='text/html')
 
 async def newroom(request: web.Request):
