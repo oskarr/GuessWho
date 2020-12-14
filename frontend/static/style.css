@@ -1,0 +1,63 @@
+html,
+body {
+    background-color: cornflowerblue;
+    overflow-y: auto;
+}
+
+html,
+body,
+.h100 {
+    height: 100%;
+}
+
+#center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.wide {
+    width: 100%
+}
+
+table.borderless tr td, tr.borderless td, td.borderless {
+    border: none;
+}
+
+
+.other-message,
+.own-message {
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+.own-message {
+    float: right;
+    margin-left: 100%;
+}
+
+.other-message {
+    float: left;
+    margin-right: 100%;
+}
+
+.box.card {
+    max-width: 20%;
+    /*max-height: 25%;*/
+    display: inline-grid
+}
+
+.character {
+    transition-property: filter font-style;
+    transition-duration: 0.2s;
+}
+
+.character.active{
+    filter: grayscale(0);
+}
+
+.character:not(.active) {
+    filter: grayscale(1);
+    font-style: italic;
+}

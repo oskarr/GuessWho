@@ -1,6 +1,6 @@
 """Contains code for organizing users into rooms."""
 
-import string, time, random
+import string, time, random, asyncio, game
 
 class Message:
     def __init__(self, sid, message):
@@ -11,9 +11,10 @@ class Message:
 
 class User:
     """Contains a user and its id."""
-    def __init__(self, sid, name):
+    def __init__(self, sid, name, team = None):
         self.id = sid
         self.name = name
+        self.team = team
 
 
 class Room:
@@ -22,12 +23,15 @@ class Room:
         self.id = rid
         self.participants = []
         self.chat = []
+        self.lastaccess = None
+        self.game = game.Game()
     
     def addMessage(self, sid, message):
         self.chat.append(Message(sid, message))
 
 
 class Organizer:
+    """Effectively works as a database"""
     def __init__(self):
         self.rooms = []
         self.users = []
@@ -47,12 +51,14 @@ class Organizer:
         self.rooms.append(room)
         return room
     
-    def updateUser(self, sid: str, uname: str):
+    def updateUser(self, sid: str, uname: str, team = None):
         user = self.getUserById(sid)
         if user:
             user.name = uname
+            if team is not None:
+                user.team = team
         else:
-            self.users.append(User(sid, uname))
+            self.users.append(User(sid, uname, team))
     
     def moveUser(self, sid: str, roomid: str):
         if self.getUserById(sid) and self.getRoomById(roomid):
@@ -60,44 +66,54 @@ class Organizer:
         else:
             assert False
     
-    def disconnect(self, sid):
-        try:
-            roomid = self.map[sid]
-            # Delete empty rooms
-            # TODO make this a delay, so that reloading won't delete the room.
-            if len(self.getUsersByRoomId(roomid)) == 1:
-                for idx, room in enumerate(self.rooms):
-                    if room.id == roomid:
+    def deleteRoom(self, roomid, delay = 3):
+        # TODO make delay work
+        #print("Pending deletion of: ", roomid, " in ", delay, "s")
+        #await asyncio.sleep(delay)
+        #print("Started deletion of: ", roomid)
+        for idx, room in enumerate(self.rooms):
+                if room.id == roomid:
+                    if len(self.getUsersByRoomId(roomid))==0:
                         del self.rooms[idx]
                         print("Deleted empty room: "+str(roomid))
-                        break
+                    else:
+                        print("Didn't delete room: "+str(roomid)+" room is not empty.")
+                    break
 
+    async def disconnect(self, sid):
+        try:
+            roomid = self.map[sid]
             del self.map[sid]
-        except:
+            # Delete empty rooms
+            # TODO make this a delay, so that reloading won't delete the room.
+            if len(self.getUsersByRoomId(roomid)) == 0:
+                self.deleteRoom(roomid)
+
+        except KeyError:
             print("WARNING: Failed to remove sid {} from backend. Were they ever connected?".format(sid))
 
     # TODO, either cache these, or make it a binary search
-    def getUserById(self, uid: str):
+    def getUserById(self, uid: str) -> User:
         for user in self.users:
             if user.id == uid:
                 return user
         return False
     
-    def getUserByName(self, uname: str):
+    def getUserByName(self, uname: str) -> User:
         for user in self.users:
             if user.name == uname:
                 return user
         return False
     
-    def getRoomById(self, roomId: str):
+    def getRoomById(self, roomId: str) -> Room:
         for room in self.rooms:
             if room.id == roomId:
                 return room
         return False
     
-    def getRoomByUserId(self, uid: str):
+    def getRoomByUserId(self, uid: str) -> Room:
         return self.getRoomById(self.map[uid])
     
-    def getUsersByRoomId(self, roomid: str):
+    def getUsersByRoomId(self, roomid: str) -> [User]:
         roomusers = [uid for uid, rid in self.map.items() if rid == roomid]
         return [user for user in self.users if user.id in roomusers]

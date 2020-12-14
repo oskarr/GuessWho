@@ -1,11 +1,15 @@
 const socket = io('');
 (function(){
-    socket.on('reply', (data) => {app.chat.push(new ChatMessage(data.from, data.message))});
+    socket.on('reply', (data) => {app.chat.push(new ChatMessage(data.from, data.message))})
+    socket.on('characters', (data) => {app.characters = data.all; app.self = data.self;})
+
     roomid = window.location.href.split("/")
     roomid = roomid[roomid.length-1]
     roomid = roomid.split("?")[0].split("#")[0]
-    socket.emit('username', Cookies.get("username"))
+
+    socket.emit('update_user', Cookies.get("username"), Cookies.get("team"))
     socket.emit('joinroom', roomid)
+    socket.emit('get_characters')
 })()
 
 
@@ -28,6 +32,8 @@ app = new Vue({
     el: '#app',
     data: {
         chat: [],
+        characters: {},
+        self: {},
         draftmessage: "",
     },
     methods: {

@@ -12,41 +12,31 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js" integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A==" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 
-    <style>
-        html,
-        body {
-            height: 100%;
-            background-color: cornflowerblue;
-            overflow-y: auto;
-        }
-
-        #center {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .wide {
-            width: 100%
-        }
-    </style>
+    
+    <link rel="stylesheet" href="static/style.css" />
 </head>
 
 <body>
     <div class="box" id="center">
         <h3 class="title">Gissa vem!</h3>
-        <table class="table">
+        <table class="table borderless">
             <tr>
                 <td><input type="text" placeholder="Spelarnamn" v-model="uname" /></td>
                 <td><input type="text" placeholder="Rum-id" v-model="roomid" /></td>
+            </tr>
+            <tr>
+                <td colspan="2">Lag:</td>
+            </tr>
+            <tr>
+                <td><label class="radio"><input type="radio" v-model="team" value = "A"> Kanel</label></td>
+                <td><label class="radio"><input type="radio" v-model="team" value = "B"> Kardemumma</label></td>
             </tr>
             <tr>
                 <td><button class="button wide" v-on:click="newroom">Nytt rum</button></td>
                 <td><button class="button wide" v-on:click="joinroom">Gå med i rum</button></td>
             </tr>
         </table>
-        <p class="is-size-7 has-text-centered">Denna sida använder cookies för att lagra ditt användarnamn.<br>Cookien raderas när du stänger din webbläsare.</p>
+        <p class="is-size-7 has-text-centered">Denna sida använder cookies för att lagra ditt användarnamn och lag.<br>Cookien raderas när du stänger din webbläsare.</p>
     </div>
 </body>
 <script>
@@ -55,14 +45,17 @@
         data: {
             uname: Cookies.get("username"),
             roomid: "",
+            team: Cookies.get("team"),
         },
         methods: {// TODO add validation
             newroom: function () {
                 Cookies.set("username", this.uname, {path: ""})
+                Cookies.set("team", this.team, {path: ""})
                 window.location.href = "/newroom"
             },
             joinroom: function () {
                 Cookies.set("username", this.uname, {path: ""})
+                Cookies.set("team", this.team, {path: ""})
                 window.location.href = "/room/" + this.roomid
             }
         }

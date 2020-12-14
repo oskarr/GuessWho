@@ -20,33 +20,7 @@
 
     <script defer src="app/room.js"></script>
 
-    <style>
-        html,
-        body,
-        .h100 {
-            height: 100%;
-        }
-
-        body {
-            background-color: cornflowerblue
-        }
-
-        .other-message,
-        .own-message {
-            max-width: 100%;
-            overflow-wrap: break-word;
-        }
-
-        .own-message {
-            float: right;
-            margin-left: 100%;
-        }
-
-        .other-message {
-            float: left;
-            margin-right: 100%;
-        }
-    </style>
+    <link rel="stylesheet" href="static/style.css" />
 </head>
 
 <body>
@@ -59,6 +33,13 @@
                             <a class="button has-background-danger-dark has-text-white" href=".">Lämna rum</a>
                         </div>
                         <div class="box row" style="height:80%">
+                            <div>
+                                <h4 class="title is-size-4">Din karaktär</h4>
+                            <div class="box">
+                                <img v-bind:src="self.image" /><br>
+                                <span class="has-text-centered wide">{{ self.name }}</span>
+                            </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -66,10 +47,20 @@
 
                 <div class="column" id="app">
                     <div class="rows h100">
-                        <div class="row box h100">
+                        <div class="row box h100" style="overflow-y: auto;background-color: lightsalmon;">
+                            <div v-for="character in characters" class="box card character" v-bind:class="{active: character.active}" v-on:click="character.active = !character.active">
+                                <img v-bind:src="character.image"/><br>
+                                <span class="has-text-centered wide">{{ character.name }}</span>
+                            </div>
 
+                            <p class="is-size-7 has-text-centered">
+                                Tack till <a href="https://github.com/NVlabs/stylegan2">Nvidia</a> för GDPR-vänliga bilder av icke-existerade personer, samt till
+                                <a
+                                    href="https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__BE__BE0001__BE0001D/BE0001Nyfodda/">SCB</a> för alla fantastiska namn!
+                            </p>
                         </div>
                     </div>
+                    <p class="is-size-7 has-text-centered">&#129462; &#9834;</p>
                 </div>
 
 
@@ -78,11 +69,13 @@
                         <div class="row box h100" style="display: flex;flex-direction: column;">
                             <h3 class="title">Chatt</h3>
                             <div style="overflow-y: auto;" class="rows">
-                                <div v-for="message in chat" class = "row">
-                                    <div v-if="!message.fromSelf()" class="box has-background-grey-lighter mb-2 other-message">
+                                <div v-for="message in chat" class="row">
+                                    <div v-if="!message.fromSelf()"
+                                        class="box has-background-grey-lighter mb-2 other-message">
                                         {{ message.content }}
                                     </div>
-                                    <div v-if="message.fromSelf()" class="box has-background-link has-text-white has-text-right mb-2 own-message">
+                                    <div v-if="message.fromSelf()"
+                                        class="box has-background-link has-text-white has-text-right mb-2 own-message">
                                         {{ message.content }}
                                     </div>
                                 </div>
