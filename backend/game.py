@@ -7,6 +7,11 @@ class Character:
         self.image = image
         self.active = True
     
+    # Static, alternate constructor
+    def fromDict(d: dict):
+        # pylint: disable=no-self-argument, unsubscriptable-object
+        return Character(d["name"], d["image"]) 
+
     def __iter__(self):
         """Only to be used for dict conversion"""
         for k, v in {
@@ -22,16 +27,16 @@ class Game:
         names = constants.NAMES.copy()
         random.shuffle(faces)
         random.shuffle(names)
-        # TODO make own face pickable by user
+        # TODO allow one char to be on both teams.
         characters = [Character(n, f) for n, f in zip(names[:40], faces[:40])]
         self.teams = {
             "A": {
                 "characters": characters[:20],
-                "self": random.choice(characters[20:]),
+                "self": None,
             },
             "B": {
                 "characters": characters[20:],
-                "self": random.choice(characters[:20]),
+                "self": None,
             }
         }
     
@@ -46,11 +51,11 @@ class Game:
             self.teams = {
                 "A": {
                     "characters": characters[:split],
-                    "self": random.choice(characters[split:]),
+                    "self": None,
                 },
                 "B": {
                     "characters": characters[split:],
-                    "self": random.choice(characters[:split]),
+                    "self": None,
                 }
             }
         else:
@@ -58,6 +63,16 @@ class Game:
 
     def getCharactersForTeam(self, team) -> dict:
         return self.teams[team]["characters"]
+
+    def getCharactersForOpposingTeam(self, team) -> dict:
+        assert team in "AB"
+        return self.teams["A" if team == "B" else "B"]["characters"]
     
     def getTeamSelf(self, team) -> dict:
         return self.teams[team]["self"]
+
+    def getTeam(self, team) -> dict:
+        return self.teams[team]
+
+    def setSelfForTeam(self, team, char: Character):
+        self.teams[team]["self"] = char

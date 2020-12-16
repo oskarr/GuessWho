@@ -1,6 +1,7 @@
 import socketio, html, json
 
 from organizer import Organizer
+from game import Character
 
 organizer = Organizer()
 
@@ -46,23 +47,53 @@ async def chat_message(sid, data):
         if user.id != sid:
             await sio.emit('reply', {"from": sid, "message": data}, room=user.id)
 
+
+##
+## Broadcast helpers
+##
+def getCharacterDict(room, team):
+    faces = list(map(dict, room.game.getCharactersForTeam(team)))
+    opp = list(map(dict, room.game.getCharactersForOpposingTeam(team)))
+    own = room.game.getTeamSelf(team)
+    own = dict(own) if own is not None else None
+    return {"self": own, "all": faces, "opponent": opp}
+
+async def sendCharacters(room, team, sid = None):
+    users = organizer.getUsersByRoomId(room.id)
+    for u in users:
+        if u.id != sid and u.team == team:
+            print("characters emission to",u.id)
+            await sio.emit('characters', getCharacterDict(room, team), room=u.id)
+
 @sio.event
 async def get_characters(sid):
     room = organizer.getRoomByUserId(sid)
     user = organizer.getUserById(sid)
     print("get_characters from: ",sid)
     if user.team is not None:
-        faces = list(map(dict, room.game.getCharactersForTeam(user.team)))
-        own = dict(room.game.getTeamSelf(user.team))
-        await sio.emit('characters', {"all": faces, "self": own}, room=sid)
+        await sio.emit('characters', getCharacterDict(room, user.team), room=sid)
+
+
+@sio.event
+async def select_character(sid, character):
+    room = organizer.getRoomByUserId(sid)
+    user = organizer.getUserById(sid)
+    game = room.game
+    if user.team is not None:
+        for char in game.getCharactersForOpposingTeam(user.team):
+            if character["name"] == char.name:
+                room.game.setSelfForTeam(user.team, Character.fromDict(character))
+        
+        await sendCharacters(room, user.team)
+    
 
 @sio.event
 async def update_characters(sid, data):
     room = organizer.getRoomByUserId(sid)
     user = organizer.getUserById(sid)
-    print("update_characters from: ",sid)
+    print("update_characters from: ", sid)
     if user.team is not None:
-        team = room.game.teams[user.team]
+        team = room.game.getTeam(user.team)
         # TODO Crazy inefficient.
         # TODO move to the Game class.
         for newchar in data:
@@ -71,13 +102,7 @@ async def update_characters(sid, data):
                     char.active = newchar["active"]
             
         # = data
-        faces = list(map(dict, room.game.getCharactersForTeam(user.team)))
-        own = dict(room.game.getTeamSelf(user.team))
-        users = organizer.getUsersByRoomId(room.id)
-        for u in users:
-            if u.id != sid and u.team == user.team:
-                print("characters emission to",u.id)
-                await sio.emit('characters', {"all": faces, "self": own}, room=u.id)
+        await sendCharacters(room, user.team, sid)
 
         
 

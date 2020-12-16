@@ -30,17 +30,24 @@
                 <div class="column is-one-fifth h100">
                     <div class="rows h100">
                         <div class="box row" style="height:30%">
-                            <input type="text" id = "linkbox" v-model="url" style="width:100%;"/>
-                            <a class="button has-background-primary has-text-white" onclick="copyLink()" style="width:100%;">Kopiera länk</a>
-                            <a class="button has-background-danger has-text-white" href="." style="width:100%;">Lämna rum</a>
+                            <input type="text" id="linkbox" v-model="url" style="width:100%;" />
+                            <a class="button has-background-primary has-text-white" onclick="copyLink()"
+                                style="width:100%;">Kopiera länk</a>
+                            <a class="button has-background-danger has-text-white" href="." style="width:100%;">Lämna
+                                rum</a>
                         </div>
                         <div class="box row" style="height:70%">
-                            <div>
+                            <div v-if="self">
                                 <h4 class="title is-size-4">Din person</h4>
-                            <div class="box">
-                                <img v-bind:src="self.image" /><br>
-                                <span class="has-text-centered wide">{{ self.name }}</span>
+                                <div class="box">
+                                    <img v-bind:src="self.image" /><br>
+                                    <span class="has-text-centered wide">{{ self.name }}</span>
+                                </div>
                             </div>
+
+                            <div v-if="!self">
+                                <h4 class="title is-size-4">Välj person</h4>
+                                <p>Till höger, obviously.</p>
                             </div>
                         </div>
                     </div>
@@ -50,15 +57,29 @@
                 <div class="column" id="app">
                     <div class="rows h100">
                         <div class="row box h100" style="overflow-y: auto;background-color: lightsalmon;">
-                            <div v-for="character in characters" class="box card character" v-bind:class="{active: character.active}" v-on:click="character.active = !character.active;updateCharacters()">
-                                <img v-bind:src="character.image"/><br>
+                            <!--Game grid-->
+                            <div v-if="[null, undefined].indexOf(self) == -1" v-for="character in teamcharacters"
+                                class="box card character" v-bind:class="{active: character.active}"
+                                v-on:click="character.active = !character.active;updateCharacters()">
+                                <img v-bind:src="character.image" /><br>
                                 <span class="has-text-centered wide">{{ character.name }}</span>
                             </div>
 
-                            <p class="is-size-7 has-text-centered" v-if="characters.length > 0 && characters[0].image.substr(0,12)=='static/NVSG/'">
-                                Tack till <a href="https://github.com/NVlabs/stylegan2">Nvidia</a> för GDPR-vänliga bilder av icke-existerade personer, samt till
+                            <!--Character select-->
+                            <div v-if="self == null" v-for="character in oppcharacters" class="box card character"
+                                v-bind:class="{active: character.active}"
+                                v-on:click="character.active = !character.active;selectCharacter()">
+                                <img v-bind:src="character.image" /><br>
+                                <span class="has-text-centered wide">{{ character.name }}</span>
+                            </div>
+
+                            <p class="is-size-7 has-text-centered"
+                                v-if="teamcharacters.length > 0 && teamcharacters[0].image.substr(0,12)=='static/NVSG/'">
+                                Tack till <a href="https://github.com/NVlabs/stylegan2">Nvidia</a> för GDPR-vänliga
+                                bilder av icke-existerade personer, samt till
                                 <a
-                                    href="https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__BE__BE0001__BE0001D/BE0001Nyfodda/">SCB</a> för alla fantastiska namn!
+                                    href="https://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__BE__BE0001__BE0001D/BE0001Nyfodda/">SCB</a>
+                                för alla fantastiska namn!
                             </p>
                         </div>
                     </div>
