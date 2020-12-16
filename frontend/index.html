@@ -20,13 +20,15 @@
 
 <body>
     <div class="box" id="center" style="width:min-content">
-        <h3 class="title">Gissa vem!<br><span class="is-size-7">Alpha 0.3.2</span></h3>
+        <h3 class="title">Gissa vem!<br><span class="is-size-7">Alpha 0.4.2</span></h3>
         
         <div class="notification is-primary" v-bind:hidden="GET('err')!='newuser'">👋 Hej! Innan du kan gå med i rummet
             måste du välja ett lag och ett användarnamn.</div>
         <div class="notification is-warning" v-bind:hidden="GET('err')!='roomnotfound'">&#8477;<sup>&#119899;</sup>
             Rummet hittades inte.</div>
-        <div class="notification is-warning" v-bind:hidden="GET('err')!='notazip'">Filen måste vara en zip-fil.</div>
+        <div class="notification is-warning" v-bind:hidden="GET('err')!='notazip'">Om du bara laddar upp en fil måste den vara en zip-fil.</div>
+        <div class="notification is-warning" v-bind:hidden="GET('err')!='nofileprovided'">Skickade du verkligen med någon fil nu?</div>
+        <div class="notification is-warning" v-bind:hidden="GET('err')!='toofewfiles'">Du måste skicka minst <i>två</i> bildfiler med <i>unika</i> filnamn.</div>
 
         <table class="table borderless">
             <tr>
@@ -49,16 +51,14 @@
         </table>
         <form method="POST" action="newcustomroom" enctype="multipart/form-data">
             <hr>
-            <fieldset style="text-align: center;"><input type="file" name="file" id = "file"/></fieldset>
+            <fieldset style="text-align: center;"><input type="file" name="file" id = "file" multiple/></fieldset>
             <br>
             <input type="submit" class="button wide" name="sender" value="Nytt rum med egna filer" v-on:mousedown="setcookies">
             <hr>
         </form>
-        <p class="is-size-7 has-text-centered">Denna sida använder cookies för att lagra ditt användarnamn och lag.
+        <p class="is-size-7 has-text-centered">Denna sida använder cookies för att lagra ditt användarnamn och lag. Dessa cookies raderas när du stänger din webbläsare.
             <br>
-            Cookien raderas när du stänger din webbläsare.
-            <br>
-            Uppladdade filer måste vara en zip-fil med bilder. Bildernas filnamn används i spelet. Bilderna raderas automatiskt när alla har lämnat rummet.
+            Uppladdade filer måste vara bildfiler, eller zip-filer med bilder. Bildernas filnamn används i spelet, och bilderna raderas automatiskt när alla har lämnat rummet.
         </p>
     </div>
 </body>

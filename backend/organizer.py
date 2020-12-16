@@ -77,10 +77,10 @@ class Organizer:
                     if len(self.getUsersByRoomId(roomid))==0 or force:
                         del self.rooms[idx]
 
-                        roompath = BASE_PATH + "/frontend/static/user/"+roomid
+                        roompath = BASE_PATH + "/frontend/static/UPC/"+roomid
                         if os.path.isdir(roompath):
                             shutil.rmtree(roompath)
-                        print("Deleted empty room: "+str(roomid))
+                        print("Deleted room: "+str(roomid))
                     else:
                         print("Didn't delete room: "+str(roomid)+" room is not empty.")
                     break

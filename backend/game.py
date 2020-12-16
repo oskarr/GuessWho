@@ -41,7 +41,7 @@ class Game:
         }
     
     def initFromUserUpload(self, roomid):
-        localpath = "static/user/"+roomid+"/"
+        localpath = "static/UPC/"+roomid+"/"
         path = BASE_PATH + "/frontend/"+ localpath
         if os.path.isdir(path):
             files = os.listdir(path)
