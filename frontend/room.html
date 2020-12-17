@@ -7,16 +7,10 @@
 
     <title>Gissa vem!</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.1/css/bulma.min.css"
-        integrity="sha512-ZRv40llEogRmoWgZwnsqke3HNzJ0kiI0+pcMgiz2bxO6Ew1DVBtWjVn0qjrXdT3+u+pSN36gLgmJiiQ3cQtyzA=="
-        crossorigin="anonymous" />
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.min.js"
-        integrity="sha512-Jq1JnVXlkYQOYQpz31qIV/0l67d97J9I6sbILtfiSYX00Isr2zK7XDRmHW8d2iBTwNZfL7sHkHGT0EzLs90jdw=="
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js"
-        integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A=="
-        crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" integrity="sha256-WLKGWSIJYerRN8tbNGtXWVYnUM5wMJTXD8eG4NtGcDM=" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/socket.io@3.0.4/client-dist/socket.io.min.js" integrity="sha256-TVYbK1yBfvKFK8n+2nNa8fcQExJg3fjlN/O69UkayT4=" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js" integrity="sha256-KSlsysqp7TXtFo/FHjb1T9b425x3hrvzjMWaJyKbpcI=" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
 
     <script defer src="app/room.js"></script>
 
@@ -36,7 +30,8 @@
                                 style="width:100%;">Kopiera länk</a>
                             <a class="button has-background-danger has-text-white" href="." style="width:100%;">Lämna
                                 rum</a>
-                            <a class="button has-background-success has-text-white" v-on:click="newGame()" style="width:100%;">{{ newGameLabel }}</a>
+                            <a class="button has-background-success has-text-white" v-on:click="newGame()"
+                                style="width:100%;">{{ newGameLabel }}</a>
                         </div>
                         <div class="box row" style="height:60%">
                             <div v-if="self">
@@ -68,7 +63,8 @@
                             </div>
 
                             <!--Character select-->
-                            <div v-if="self == null" v-for="character in oppcharacters" class="box card character active"
+                            <div v-if="self == null" v-for="character in oppcharacters"
+                                class="box card character active"
                                 v-on:click="character.active = !character.active;selectCharacter()">
                                 <img v-bind:src="character.image" /><br>
                                 <span class="has-text-centered wide">{{ character.name }}</span>
@@ -100,7 +96,8 @@
                                         <p>{{ message.content }}</p>
                                     </div>
                                     <div v-if="message.fromSelf()"
-                                        class="box has-background-link has-text-white mb-2 own-message" style="width:max-content">
+                                        class="box has-background-link has-text-white mb-2 own-message"
+                                        style="width:max-content">
                                         <p>{{ message.content }}</p>
                                     </div>
                                 </div>
