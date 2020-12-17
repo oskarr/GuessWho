@@ -33,14 +33,19 @@ class Game:
             "A": {
                 "characters": characters[:20],
                 "self": None,
+                "requestingNewGame" : False,
             },
             "B": {
                 "characters": characters[20:],
                 "self": None,
+                "requestingNewGame" : False,
             }
         }
+        self.is_custom = False
+        self.path = None
     
     def initFromUserUpload(self, roomid):
+        # TODO detta är kodupprepning från __init__...
         localpath = "static/UPC/"+roomid+"/"
         path = BASE_PATH + "/frontend/"+ localpath
         if os.path.isdir(path):
@@ -52,15 +57,26 @@ class Game:
                 "A": {
                     "characters": characters[:split],
                     "self": None,
+                    "requestingNewGame" : False,
                 },
                 "B": {
                     "characters": characters[split:],
                     "self": None,
+                    "requestingNewGame" : False,
                 }
             }
+            self.is_custom = True
+            self.path = path
         else:
             pass
-
+    
+    def restart(self):
+        # TODO this is a very ugly solution
+        if self.is_custom:
+            self.initFromUserUpload(self.path.split("/")[-1])
+        else:
+            self.__init__()
+        
     def getCharactersForTeam(self, team) -> dict:
         return self.teams[team]["characters"]
 
@@ -73,6 +89,10 @@ class Game:
 
     def getTeam(self, team) -> dict:
         return self.teams[team]
+
+    def getOpposingTeam(self, team) -> dict:
+        assert team in "AB"
+        return self.teams["A" if team == "B" else "B"]
 
     def setSelfForTeam(self, team, char: Character):
         self.teams[team]["self"] = char

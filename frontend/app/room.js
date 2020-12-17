@@ -11,7 +11,15 @@ if([undefined, "undefined"].indexOf(Cookies.get("username")) != -1 || [undefined
 const socket = io('');
 (function(){
     socket.on('reply', (data) => {app.chat.push(new ChatMessage(data.from, data.message))})
-    socket.on('characters', (data) => {console.log("Recieved characters");app.teamcharacters = data.all; app.oppcharacters = data.opponent; app.self = data.self;})
+    socket.on('characters', (data) => {
+        console.log("Recieved characters");
+        if (data.self == null) {
+            app.newGameLabel = "Ny omgång"
+        }
+        app.teamcharacters = data.all;
+        app.oppcharacters = data.opponent;
+        app.self = data.self;
+    })
 
     socket.emit('update_user', Cookies.get("username"), Cookies.get("team"))
     socket.emit('joinroom', ROOM_ID)
@@ -47,7 +55,8 @@ app = new Vue({
         oppcharacters: {},
         self: undefined,
         draftmessage: "",
-        url: window.location.href
+        url: window.location.href,
+        newGameLabel: "Ny omgång",
     },
     methods: {
         chatkeydown: function(event) {
@@ -58,13 +67,17 @@ app = new Vue({
             }
         },
         updateCharacters: function() {
-            socket.emit('update_characters', this.characters)
+            socket.emit('update_characters', this.teamcharacters)
         },
         selectCharacter: function() {
             for(character of this.oppcharacters) {
                 if (character.active == false)
                     socket.emit('select_character', character)
             }
+        },
+        newGame: function() {
+            socket.emit('new_game'),
+            this.newGameLabel = "Väntar på andra laget..."
         }
     }
 })

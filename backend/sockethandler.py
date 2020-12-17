@@ -42,10 +42,19 @@ async def chat_message(sid, data):
     users = organizer.getUsersByRoomId(room.id)
     room.addMessage(sid, data)
 
-    # TODO parallellize
     for user in users:
         if user.id != sid:
             await sio.emit('reply', {"from": sid, "message": data}, room=user.id)
+
+@sio.event
+async def new_game(sid):
+    room = organizer.getRoomByUserId(sid)
+    team = organizer.getUserById(sid).team
+    room.game.teams[team]["requestingNewGame"] = True
+    if room.game.getOpposingTeam(team)["requestingNewGame"]:
+        room.game.restart()
+        print("new_game in ", room.id)
+        await sendCharacters(room, team = "all")
 
 
 ##
@@ -61,9 +70,9 @@ def getCharacterDict(room, team):
 async def sendCharacters(room, team, sid = None):
     users = organizer.getUsersByRoomId(room.id)
     for u in users:
-        if u.id != sid and u.team == team:
+        if (u.id != sid and u.team == team) or team == "all":
             print("characters emission to",u.id)
-            await sio.emit('characters', getCharacterDict(room, team), room=u.id)
+            await sio.emit('characters', getCharacterDict(room, u.team), room=u.id)
 
 @sio.event
 async def get_characters(sid):

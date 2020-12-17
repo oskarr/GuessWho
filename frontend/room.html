@@ -30,14 +30,15 @@
             <div class="columns h100">
                 <div class="column is-one-fifth h100">
                     <div class="rows h100">
-                        <div class="box row" style="height:30%">
+                        <div class="box row" style="height:40%">
                             <input type="text" id="linkbox" v-model="url" style="width:100%;" />
                             <a class="button has-background-primary has-text-white" onclick="copyLink()"
                                 style="width:100%;">Kopiera länk</a>
                             <a class="button has-background-danger has-text-white" href="." style="width:100%;">Lämna
                                 rum</a>
+                            <a class="button has-background-success has-text-white" v-on:click="newGame()" style="width:100%;">{{ newGameLabel }}</a>
                         </div>
-                        <div class="box row" style="height:70%">
+                        <div class="box row" style="height:60%">
                             <div v-if="self">
                                 <h4 class="title is-size-4">Din person</h4>
                                 <div class="box">
@@ -67,8 +68,7 @@
                             </div>
 
                             <!--Character select-->
-                            <div v-if="self == null" v-for="character in oppcharacters" class="box card character"
-                                v-bind:class="{active: character.active}"
+                            <div v-if="self == null" v-for="character in oppcharacters" class="box card character active"
                                 v-on:click="character.active = !character.active;selectCharacter()">
                                 <img v-bind:src="character.image" /><br>
                                 <span class="has-text-centered wide">{{ character.name }}</span>
