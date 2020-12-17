@@ -73,7 +73,8 @@ class Game:
     def restart(self):
         # TODO this is a very ugly solution
         if self.is_custom:
-            self.initFromUserUpload(self.path.split("/")[-1])
+            #print(self.path.split("/"))
+            self.initFromUserUpload(self.path.split("/")[-2])
         else:
             self.__init__()
         
