@@ -10,7 +10,7 @@ if([undefined, "undefined"].indexOf(Cookies.get("username")) != -1 || [undefined
 
 const socket = io('');
 (function(){
-    socket.on('reply', (data) => {app.chat.push(new ChatMessage(data.from, data.message))})
+    socket.on('reply', (data) => {app.chat.push(new ChatMessage(data.from, data.message, data.alias))})
     socket.on('characters', (data) => {
         console.log("Recieved characters");
         if (data.self == null) {
@@ -34,9 +34,10 @@ function copyLink() {
 }
 
 class ChatMessage {
-    constructor(sid, message) {
+    constructor(sid, message, alias) {
       this.from = sid;
       this.content = message;
+      this.alias = alias
     }
 
     fromSelf() {

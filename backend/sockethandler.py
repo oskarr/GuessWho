@@ -30,7 +30,7 @@ async def joinroom(sid, roomid):
         print(sid, " joined room ", roomid)
         await sio.emit('room', {"action": "confirmation", "success": True}, room=sid)
         for message in room.chat:
-            await sio.emit('reply', {"from": message.sender, "message": message.message}, room=sid)
+            await sio.emit('reply', {"from": message.sender, "alias": organizer.getUserById(message.sender).name, "message": message.message}, room=sid)
     else:
         await sio.emit('room', {"action": "confirmation", "success": False}, room=sid)
 
@@ -44,7 +44,7 @@ async def chat_message(sid, data):
 
     for user in users:
         if user.id != sid:
-            await sio.emit('reply', {"from": sid, "message": data}, room=user.id)
+            await sio.emit('reply', {"from": sid, "alias": organizer.getUserById(sid).name, "message": data}, room=user.id)
 
 @sio.event
 async def new_game(sid):

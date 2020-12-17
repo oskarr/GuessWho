@@ -96,11 +96,12 @@
                                 <div v-for="message in chat" class="row">
                                     <div v-if="!message.fromSelf()"
                                         class="box has-background-grey-lighter mb-2 other-message">
-                                        {{ message.content }}
+                                        <p class="is-size-7"><i>{{ message.alias }}:</i></p>
+                                        <p>{{ message.content }}</p>
                                     </div>
                                     <div v-if="message.fromSelf()"
-                                        class="box has-background-link has-text-white mb-2 own-message">
-                                        {{ message.content }}
+                                        class="box has-background-link has-text-white mb-2 own-message" style="width:max-content">
+                                        <p>{{ message.content }}</p>
                                     </div>
                                 </div>
                             </div>

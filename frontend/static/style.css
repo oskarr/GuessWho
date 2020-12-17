@@ -31,6 +31,7 @@ table.borderless tr td, tr.borderless td, td.borderless {
 .own-message {
     max-width: 100%;
     overflow-wrap: break-word;
+    width: max-content;
 }
 
 .own-message {
@@ -41,7 +42,6 @@ table.borderless tr td, tr.borderless td, td.borderless {
 .other-message {
     float: left;
     margin-right: 100%;
-    width: max-content;
 }
 
 .box.card {
