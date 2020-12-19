@@ -23,10 +23,8 @@
     <div class="box" id="center" style="width:min-content">
         <h3 class="title">Gissa vem!<br><span class="is-size-7">Alpha 0.4.4</span></h3>
         
-        <div class="notification is-primary" v-bind:hidden="GET('err')!='newuser'">👋 Hej! Innan du kan gå med i rummet
-            måste du välja ett lag och ett användarnamn.</div>
-        <div class="notification is-warning" v-bind:hidden="GET('err')!='roomnotfound'">&#8477;<sup>&#119899;</sup>
-            Rummet hittades inte.</div>
+        <div class="notification is-primary" v-bind:hidden="GET('err')!='newuser'">👋 Hej! Innan du kan gå med i rummet måste du välja ett lag och ett användarnamn.</div>
+        <div class="notification is-warning" v-bind:hidden="GET('err')!='roomnotfound'">&#8477;<sup>&#119899;</sup> Rummet hittades inte.</div>
         <div class="notification is-warning" v-bind:hidden="GET('err')!='notazip'">Om du bara laddar upp en fil måste den vara en zip-fil.</div>
         <div class="notification is-warning" v-bind:hidden="GET('err')!='nofileprovided'">Skickade du verkligen med någon fil nu?</div>
         <div class="notification is-warning" v-bind:hidden="GET('err')!='toofewfiles'">Du måste skicka minst <i>två</i> bildfiler med <i>unika</i> filnamn.</div>
@@ -41,12 +39,11 @@
             </tr>
             <tr>
                 <td><label class="radio"><input type="radio" v-model="team" value="A"> Kanel</label></td>
-                <td><label class="radio"><input type="radio" v-model="team" value="B"> Kardemumma</label>
-                </td>
+                <td><label class="radio"><input type="radio" v-model="team" value="B"> Kardemumma</label></td>
             </tr>
             <tr>
-                <td><button class="button wide" v-on:click="newroom">Nytt rum</button></td>
-                <td><button class="button wide" v-on:click="joinroom">Gå med i rum</button></td>
+                <td><button class="button wide" v-on:click="newroom" v-bind:class="{'is-primary': roomid == ''}">Nytt rum</button></td>
+                <td><button class="button wide" v-on:click="joinroom" v-bind:class="{'is-primary': roomid != ''}">Gå med i rum</button></td>
             </tr>
 
         </table>
