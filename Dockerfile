@@ -21,10 +21,12 @@ COPY backend/lighttpd.conf /etc/lighttpd/lighttpd.conf
 
 COPY . /app
 
-CMD echo $PORT;\
-    if [ -z ${PORT+x} ]; then PORT=8080;fi;\
-    echo "Using port $PORT.";\
-    sed -i '$ d' /etc/lighttpd/lighttpd.conf;\
-    echo "server.port = $PORT" >> /etc/lighttpd/lighttpd.conf;\
-    cat /etc/lighttpd/lighttpd.conf;\
-    ./app/backend/server.py & lighttpd -D -f /etc/lighttpd/lighttpd.conf
+#CMD echo $PORT;\
+#    if [ -z ${PORT+x} ]; then PORT=8080;fi;\
+#    echo "Using port $PORT.";\
+#    sed -i '$ d' /etc/lighttpd/lighttpd.conf;\
+#    echo "server.port = $PORT" >> /etc/lighttpd/lighttpd.conf;\
+#    cat /etc/lighttpd/lighttpd.conf;\
+#    ./app/backend/server.py & lighttpd -D -f /etc/lighttpd/lighttpd.conf
+
+CMD ./app/backend/server.py
