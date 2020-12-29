@@ -99,9 +99,10 @@ def main():
     app.router.add_get('/newroom', newroom)
     app.router.add_post('/newcustomroom', newcustomroom)
 
-    print("[INFO] Attempting to assign server to port ", os.getenv('PORT'))
+    port = 58829#os.getenv('PORT') #TODO check for port collision
+    print("[INFO] Attempting to assign server to port ", port)
     print("[INFO] Don't forget to manually clean /static/UPC/ if shutting down manually.")
-    web.run_app(app, port = os.getenv('PORT'))
+    web.run_app(app, port = port)
     
 
 if __name__ == '__main__':
