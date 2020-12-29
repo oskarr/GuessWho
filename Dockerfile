@@ -1,4 +1,4 @@
-FROM alpine:3.12
+FROM alpine:3
 
 LABEL version="0.1"
 
@@ -10,8 +10,9 @@ RUN apk --update add \
 
 RUN pip3 install python-socketio
 
-ENV PORT=8080
-EXPOSE 8080/tcp
+# Uncomment these if not running on Heroku.
+#ENV PORT=8080
+#EXPOSE 8080/tcp
 
 COPY . /app
 

@@ -95,6 +95,7 @@ def main():
 
     app.router.add_get('/', index)
     app.router.add_get('/room/{roomid}', room)
+    app.router.add_get('/room/', room)
     app.router.add_get('/newroom', newroom)
     app.router.add_post('/newcustomroom', newcustomroom)
 
