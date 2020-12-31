@@ -1,0 +1,15 @@
+FROM alpine:3
+
+LABEL version="0.1.5h"
+
+RUN apk --update add \
+    python3 \
+    py3-pip \
+    py3-aiohttp \
+    && rm -rf /var/cache/apk/*
+
+RUN pip3 install python-socketio
+
+COPY . /app
+
+CMD ./app/backend/server.py

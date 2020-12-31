@@ -1,0 +1,24 @@
+FROM alpine:3
+
+LABEL version="0.1.5g"
+
+RUN apk --update add \
+    python3 \
+    py3-pip \
+    py3-aiohttp \
+    lighttpd \
+    && rm -rf /var/cache/apk/*
+
+RUN pip3 install python-socketio
+
+RUN adduser www-data -G www-data -H -s /bin/false -D && \
+    mkdir -p /run/lighttpd/ && \
+    chown www-data. /run/lighttpd/
+
+# EXPOSE 80/tcp
+
+COPY backend/lighttpd.conf /etc/lighttpd/lighttpd.conf
+
+COPY . /app
+
+CMD ./app/backend/server.py & lighttpd -D -f /etc/lighttpd/lighttpd.conf
