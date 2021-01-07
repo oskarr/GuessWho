@@ -1,7 +1,10 @@
 html,
 body {
-    /*background-color: cornflowerblue;*/
     background-image: url('lucas-benjamin-wQLAGv4_OYs-unsplash.jpg');
+    background-repeat:no-repeat;
+    background-position: center center;
+    background-size: cover;
+
     overflow-y: auto;
     min-height: 600px;
     min-width: 800px;
