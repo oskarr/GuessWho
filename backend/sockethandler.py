@@ -20,7 +20,7 @@ async def disconnect(sid):
 def update_user(sid, uname, team):
     # TODO disallow updating of team
     print('Update user: ', sid)
-    organizer.updateUser(sid, uname, team)
+    organizer.updateUser(sid, html.escape(uname), team)
 
 @sio.event
 async def joinroom(sid, roomid):
