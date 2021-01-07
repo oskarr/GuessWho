@@ -10,7 +10,7 @@ if([undefined, "undefined"].indexOf(Cookies.get("username")) != -1 || [undefined
 
 const socket = io('');
 (function(){
-    socket.on('reply', (data) => {app.chat.push(new ChatMessage(data.from, data.message, data.alias))})
+    socket.on('reply', (data) => {app.chat.push(new ChatMessage(data.from, data.message, data.alias, data.team))})
     socket.on('characters', (data) => {
         console.log("Recieved characters");
         if (data.self == null) {
@@ -34,10 +34,11 @@ function copyLink() {
 }
 
 class ChatMessage {
-    constructor(sid, message, alias) {
+    constructor(sid, message, alias, team) {
       this.from = sid;
       this.content = message;
-      this.alias = alias
+      this.alias = alias;
+      this.senderTeam = team;
     }
 
     fromSelf() {
@@ -54,6 +55,7 @@ app = new Vue({
         chat: [],
         teamcharacters: {},
         oppcharacters: {},
+        teamId: Cookies.get("team"),
         self: undefined,
         draftmessage: "",
         url: window.location.href,
