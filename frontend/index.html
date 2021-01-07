@@ -21,7 +21,7 @@
 
 <body>
     <div class="box" id="center" style="width:min-content">
-        <h3 class="title">Gissa vem!<br><span class="is-size-7">Alpha 0.4.4</span></h3>
+        <h3 class="title">Gissa vem!<br><span class="is-size-7">Alpha 0.4.5</span></h3>
         
         <div class="notification is-primary" v-bind:hidden="GET('err')!='newuser'">👋 Hej! Innan du kan gå med i rummet måste du välja ett lag och ett användarnamn.</div>
         <div class="notification is-warning" v-bind:hidden="GET('err')!='roomnotfound'">&#8477;<sup>&#119899;</sup> Rummet hittades inte.</div>
@@ -38,8 +38,8 @@
                 <td colspan="2">Lag:</td>
             </tr>
             <tr>
-                <td><label class="radio"><input type="radio" v-model="team" value="A"> Kanel</label></td>
-                <td><label class="radio"><input type="radio" v-model="team" value="B"> Kardemumma</label></td>
+                <td><label class="radio"><input type="radio" v-model="team" value="A"> Blå</label></td>
+                <td><label class="radio"><input type="radio" v-model="team" value="B"> Orange</label></td>
             </tr>
             <tr>
                 <td><button class="button wide" v-on:click="newroom" v-bind:class="{'is-primary': roomid == ''}">Nytt rum</button></td>
@@ -57,6 +57,7 @@
         <p class="is-size-7 has-text-centered">Denna sida använder cookies för att lagra ditt användarnamn och lag. Dessa cookies raderas när du stänger din webbläsare.
             <br>
             Uppladdade filer måste vara bildfiler, eller zip-filer med bilder. Bildernas filnamn används i spelet, och bilderna raderas automatiskt när alla har lämnat rummet.
+            <br>Bakgrund av <a href="https://unsplash.com/@aznbokchoy?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Lucas Benjamin</a>, <a href="https://unsplash.com/s/photos/color-splash?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a>.
         </p>
     </div>
 </body>

@@ -1,6 +1,7 @@
 html,
 body {
-    background-color: cornflowerblue;
+    /*background-color: cornflowerblue;*/
+    background-image: url('lucas-benjamin-wQLAGv4_OYs-unsplash.jpg');
     overflow-y: auto;
     min-height: 600px;
     min-width: 800px;
@@ -10,6 +11,15 @@ html,
 body,
 .h100 {
     height: 100%;
+}
+
+.box {
+    background-color: rgba(255,255,255,0.9)
+}
+
+.box table.table {
+    border-radius: 6px;
+    background-color: rgba(255,255,255,0.8)
 }
 
 #center {
